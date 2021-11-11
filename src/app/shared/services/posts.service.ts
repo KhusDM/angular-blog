@@ -22,4 +22,19 @@ export class PostsService {
         return newPost;
       }));
   }
+
+  getAll(): Observable<any> {
+    return this.httpClient
+      .get(`${environment.fbDbUrl}/posts.json`)
+      .pipe(map((response: { [key: string]: any }) => {
+        return Object
+          .keys(response)
+          .map((key) => ({
+              ...response[key],
+              id: key,
+              date: response[key].date
+            })
+          );
+      }));
+  }
 }
